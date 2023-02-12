@@ -12,10 +12,12 @@ public class gun : UdonSharpBehaviour
     public override void OnPickupUseDown()
     {
         base.OnPickupUseDown();
+        SendCustomNetworkEvent(VRC.Udon.Common.Interfaces.NetworkEventTarget.All, "Shot");
+    }
 
+    public void Shot()
+    {
         GunParticle.Play();
-
-
     }
 
     public void shakeToggle()
