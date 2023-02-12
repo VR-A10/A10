@@ -31,7 +31,8 @@ public class gameManager : UdonSharpBehaviour
                 if (targetAssignment[i] == Networking.LocalPlayer.playerId)
                 {
                     targets[i].transform.parent = head.transform;  // 頭に付ける
-                    targets[i].transform.localPosition = new Vector3(0f, 0f, 0f);
+                    targets[i].transform.localPosition = new Vector3(0, 0, 0);
+                    targets[i].transform.localRotation = Quaternion.Euler(0, 0, 0);
                 }
             }
         }
@@ -74,16 +75,13 @@ public class gameManager : UdonSharpBehaviour
 
     public override void OnPlayerLeft(VRCPlayerApi player)
     {
-        if (Networking.IsOwner(Networking.LocalPlayer, this.gameObject))
+        for (int i = 0; i < 4; i++)
         {
-            for (int i = 0; i < 4; i++)
+            if (targetAssignment[i] == player.playerId)
             {
-                if (targetAssignment[i] == player.playerId)
-                {
-                    targetAssignment[i] = -1;
-                    targets[i].SetActive(false);
-                }
+                if (Networking.IsOwner(Networking.LocalPlayer, this.gameObject)) targetAssignment[i] = -1;
+                targets[i].SetActive(false);
             }
-        }            
+        }          
     }
 }
