@@ -8,6 +8,9 @@ public class bullet : UdonSharpBehaviour
 {
     public GameObject visionBlock;
     public GameObject handgun;
+    public GameObject A10;
+
+    int damage_amount = 10;
 
 
     private void OnParticleCollision(GameObject other)
@@ -28,8 +31,10 @@ public class bullet : UdonSharpBehaviour
         {
             //other.gameObject.GetComponent<Renderer>().material.color = Color.red;
             handgun.GetComponent<gun>().shakeToggle();
-
-
+        }
+        else if (other.name == "A10")
+        {
+            A10.GetComponent<a10>().A10hit(damage_amount);
         }
 
 
