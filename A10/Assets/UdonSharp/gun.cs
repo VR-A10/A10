@@ -28,7 +28,7 @@ public class gun : UdonSharpBehaviour
         if (Shake == 1)
         {
             Transform gunTrans = this.transform;
-            gunTrans.Rotate(0.0f, 4 * Mathf.Cos(40 * Time.time), 0.0f);
+            gunTrans.Rotate(0.0f, 2 * Mathf.Cos(40 * Time.time), 1.5f * Mathf.Cos(30 * Time.time));
 
         }
     }
