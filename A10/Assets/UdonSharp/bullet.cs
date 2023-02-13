@@ -3,13 +3,27 @@ using UdonSharp;
 using UnityEngine;
 using VRC.SDKBase;
 using VRC.Udon;
+using tutinoco;
 
-public class bullet : UdonSharpBehaviour
+public class bullet : SimpleNetworkUdonBehaviour
 {
     public GameObject handgun;
-
     int damage_amount = 10;
 
+    private ParticleSystem GunParticle;
+    private Transform particleTrans, initialParticleTrans;
+    private Vector3 shotPosition, shotForward;
+    private bool shotPositionReceived = false;
+
+    void Start()
+    {
+        GunParticle = this.gameObject.GetComponent<ParticleSystem>();
+        particleTrans = this.gameObject.transform;
+        GameObject tmp = Instantiate(particleTrans.gameObject);
+        tmp.SetActive(false);
+        initialParticleTrans = tmp.transform;
+        SimpleNetworkInit(Publisher.Owner);
+    }
 
     private void OnParticleCollision(GameObject other)
     {
@@ -37,5 +51,57 @@ public class bullet : UdonSharpBehaviour
         }
 
 
+    }
+
+    public void Shot()
+    {
+        SendEvent("ShotPosition", particleTrans.position);
+        SendEvent("Shot", particleTrans.forward);
+    }
+
+    public override void ReceiveEvent(string name, string value)
+    {
+        if (name == "ShotPosition")
+        {
+            // 受け取った座標を記憶
+            shotPositionReceived = true;
+            shotPosition = GetVector3(value);
+        }
+
+        if (name == "Shot")
+        {
+            if (shotPositionReceived)
+            {
+                particleTrans.position = shotPosition;
+                particleTrans.forward = GetVector3(value);
+                GunParticle.Play();
+                shotPositionReceived = false;
+                InitParticleTrans();
+            }
+            else
+            {
+                shotForward = GetVector3(value);
+                SendCustomEventDelayedSeconds(nameof(DelayedShot), 0.05f);
+            }
+        }
+    }
+
+    public void DelayedShot()
+    {
+        if (shotPositionReceived)
+        {
+            particleTrans.position = shotPosition;
+            particleTrans.forward = shotForward;
+            GunParticle.Play();
+            shotPositionReceived = false;
+            InitParticleTrans();
+        }
+        else SendCustomEventDelayedSeconds(nameof(DelayedShot), 0.05f);
+    }
+
+    private void InitParticleTrans()
+    {
+        particleTrans.localPosition = initialParticleTrans.localPosition;
+        particleTrans.localRotation = initialParticleTrans.localRotation;
     }
 }
