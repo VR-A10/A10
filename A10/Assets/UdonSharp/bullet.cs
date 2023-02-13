@@ -6,9 +6,7 @@ using VRC.Udon;
 
 public class bullet : UdonSharpBehaviour
 {
-    public GameObject visionBlock;
     public GameObject handgun;
-    public GameObject A10;
 
     int damage_amount = 10;
 
@@ -25,6 +23,7 @@ public class bullet : UdonSharpBehaviour
         if (other.name == "Left Vision" || other.name == "Right Vision")
         {
             //other.gameObject.GetComponent<Renderer>().material.color = Color.red;
+            GameObject visionBlock = other.gameObject.transform.parent.Find("Constriction").gameObject;
             visionBlock.GetComponent<MeshRenderer>().enabled = !visionBlock.GetComponent<MeshRenderer>().enabled;
         }
         else if (other.name == "Left Hand" || other.name == "Right Hand")
@@ -34,7 +33,7 @@ public class bullet : UdonSharpBehaviour
         }
         else if (other.name == "A10")
         {
-            A10.GetComponent<a10>().A10hit(damage_amount);
+            other.gameObject.GetComponent<a10>().A10hit(damage_amount);
         }
 
 
