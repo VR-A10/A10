@@ -79,3 +79,7 @@ crashlytics-build.properties
 
 # Unity others
 unityProject.vrmanifest
+
+# For Multi Player Test
+/[Aa]ssets/Plugins/VRCMultiAccountLocalTest/VBS/LauncherScripts
+/[Aa]ssets/Plugins/VRCMultiAccountLocalTest/VBS/LauncherScripts.meta
