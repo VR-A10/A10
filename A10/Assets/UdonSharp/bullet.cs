@@ -55,8 +55,9 @@ public class bullet : SimpleNetworkUdonBehaviour
 
     public void Shot()
     {
-        SendEvent("ShotPosition", particleTrans.position);
-        SendEvent("Shot", particleTrans.forward);
+        InitParticleTrans();
+        SendEvent("ShotPosition", particleTrans.position, true);
+        SendEvent("Shot", particleTrans.forward, true);
     }
 
     public override void ReceiveEvent(string name, string value)
@@ -65,7 +66,7 @@ public class bullet : SimpleNetworkUdonBehaviour
         {
             // 受け取った座標を記憶
             shotPositionReceived = true;
-            shotPosition = GetVector3(value);
+            shotPosition = GetVector3(value); 
         }
 
         if (name == "Shot")
@@ -76,7 +77,6 @@ public class bullet : SimpleNetworkUdonBehaviour
                 particleTrans.forward = GetVector3(value);
                 GunParticle.Play();
                 shotPositionReceived = false;
-                InitParticleTrans();
             }
             else
             {
@@ -94,9 +94,8 @@ public class bullet : SimpleNetworkUdonBehaviour
             particleTrans.forward = shotForward;
             GunParticle.Play();
             shotPositionReceived = false;
-            InitParticleTrans();
         }
-        else SendCustomEventDelayedSeconds(nameof(DelayedShot), 0.05f);
+        //else SendCustomEventDelayedSeconds(nameof(DelayedShot), 0.05f);
     }
 
     private void InitParticleTrans()
