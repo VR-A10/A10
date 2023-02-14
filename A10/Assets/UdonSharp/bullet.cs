@@ -43,7 +43,8 @@ public class bullet : SimpleNetworkUdonBehaviour
         else if (other.name == "Left Hand" || other.name == "Right Hand")
         {
             //other.gameObject.GetComponent<Renderer>().material.color = Color.red;
-            handgun.GetComponent<gun>().shakeToggle();
+            if (Networking.IsOwner(Networking.LocalPlayer, other.gameObject))
+                handgun.GetComponent<gun>().shakeToggle();
         }
         else if (other.name == "A10")
         {
