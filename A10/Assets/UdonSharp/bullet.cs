@@ -25,6 +25,16 @@ public class bullet : SimpleNetworkUdonBehaviour
         SimpleNetworkInit(Publisher.Owner);
     }
 
+    public void SetHandGun(GameObject gun)
+    {
+        handgun = gun;
+    }
+
+    public void ResetHandGun()
+    {
+        handgun = null;
+    }
+
     private void OnParticleCollision(GameObject other)
     {
 
@@ -37,14 +47,19 @@ public class bullet : SimpleNetworkUdonBehaviour
         if (other.name == "Left Vision" || other.name == "Right Vision")
         {
             //other.gameObject.GetComponent<Renderer>().material.color = Color.red;
-            GameObject visionBlock = other.gameObject.transform.parent.Find("Constriction").gameObject;
-            visionBlock.GetComponent<MeshRenderer>().enabled = !visionBlock.GetComponent<MeshRenderer>().enabled;
+            if (Networking.IsOwner(Networking.LocalPlayer, other.gameObject))
+            {
+                GameObject visionBlock = other.gameObject.transform.parent.Find("Constriction").gameObject;
+                visionBlock.GetComponent<MeshRenderer>().enabled = !visionBlock.GetComponent<MeshRenderer>().enabled;
+            }
         }
         else if (other.name == "Left Hand" || other.name == "Right Hand")
         {
             //other.gameObject.GetComponent<Renderer>().material.color = Color.red;
-            if (Networking.IsOwner(Networking.LocalPlayer, other.gameObject))
+            if ((Networking.IsOwner(Networking.LocalPlayer, other.gameObject)) && (handgun != null))
+            {
                 handgun.GetComponent<gun>().shakeToggle();
+            }
         }
         else if (other.name == "A10")
         {
