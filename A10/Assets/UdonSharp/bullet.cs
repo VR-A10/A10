@@ -14,6 +14,7 @@ public class bullet : SimpleNetworkUdonBehaviour
     private Transform particleTrans, initialParticleTrans;
     private Vector3 shotPosition, shotForward;
     private bool shotPositionReceived = false;
+    [SerializeField] AudioSource shotSound;
 
     void Start()
     {
@@ -92,6 +93,7 @@ public class bullet : SimpleNetworkUdonBehaviour
                 particleTrans.position = shotPosition;
                 particleTrans.forward = GetVector3(value);
                 GunParticle.Play();
+                shotSound.Play();
                 shotPositionReceived = false;
             }
             else
@@ -109,6 +111,7 @@ public class bullet : SimpleNetworkUdonBehaviour
             particleTrans.position = shotPosition;
             particleTrans.forward = shotForward;
             GunParticle.Play();
+            shotSound.Play();
             shotPositionReceived = false;
         }
         //else SendCustomEventDelayedSeconds(nameof(DelayedShot), 0.05f);
