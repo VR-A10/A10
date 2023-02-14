@@ -7,7 +7,7 @@ using tutinoco;
 
 public class bullet : SimpleNetworkUdonBehaviour
 {
-    public GameObject handgun;
+    private GameObject handgun;
     int damage_amount = 10;
 
     private ParticleSystem GunParticle;

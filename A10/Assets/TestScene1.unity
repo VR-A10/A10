@@ -1682,7 +1682,6 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   _udonSharpBackingUdonBehaviour: {fileID: 351997431}
-  handgun: {fileID: 1293797531447858866}
 --- !u!199 &351997433
 ParticleSystemRenderer:
   serializedVersion: 6
@@ -5392,7 +5391,7 @@ ParticleSystem:
     m_EnergyLossOnCollision:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 0
+      scalar: 0.5
       minScalar: 0
       maxCurve:
         serializedVersion: 2
@@ -7014,7 +7013,7 @@ ParticleSystem:
   m_GameObject: {fileID: 396003926}
   serializedVersion: 6
   lengthInSec: 0.1
-  simulationSpeed: 1
+  simulationSpeed: 0.5
   stopAction: 0
   cullingMode: 0
   ringBufferMode: 0
@@ -10650,7 +10649,7 @@ ParticleSystem:
     m_EnergyLossOnCollision:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 0
+      scalar: 0.5
       minScalar: 0
       maxCurve:
         serializedVersion: 2
@@ -11711,7 +11710,6 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   _udonSharpBackingUdonBehaviour: {fileID: 396003928}
-  handgun: {fileID: 0}
 --- !u!199 &396003930
 ParticleSystemRenderer:
   serializedVersion: 6
@@ -13393,7 +13391,7 @@ ParticleSystem:
   m_GameObject: {fileID: 647526313}
   serializedVersion: 6
   lengthInSec: 0.1
-  simulationSpeed: 1
+  simulationSpeed: 0.5
   stopAction: 0
   cullingMode: 0
   ringBufferMode: 0
@@ -17029,7 +17027,7 @@ ParticleSystem:
     m_EnergyLossOnCollision:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 0
+      scalar: 0.5
       minScalar: 0
       maxCurve:
         serializedVersion: 2
@@ -18090,7 +18088,6 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   _udonSharpBackingUdonBehaviour: {fileID: 647526315}
-  handgun: {fileID: 1951450515}
 --- !u!199 &647526317
 ParticleSystemRenderer:
   serializedVersion: 6
@@ -19702,7 +19699,7 @@ ParticleSystem:
   m_GameObject: {fileID: 913669830}
   serializedVersion: 6
   lengthInSec: 0.1
-  simulationSpeed: 1
+  simulationSpeed: 0.5
   stopAction: 0
   cullingMode: 0
   ringBufferMode: 0
@@ -23338,7 +23335,7 @@ ParticleSystem:
     m_EnergyLossOnCollision:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 0
+      scalar: 0.5
       minScalar: 0
       maxCurve:
         serializedVersion: 2
@@ -24399,7 +24396,6 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   _udonSharpBackingUdonBehaviour: {fileID: 913669832}
-  handgun: {fileID: 0}
 --- !u!199 &913669834
 ParticleSystemRenderer:
   serializedVersion: 6
