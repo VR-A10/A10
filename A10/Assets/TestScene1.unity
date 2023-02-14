@@ -1653,6 +1653,7 @@ MonoBehaviour:
     SerializationNodes: []
   _udonSharpBackingUdonBehaviour: {fileID: 351997431}
   handgun: {fileID: 1293797531447858866}
+  damagePlane: {fileID: 1951216962}
 --- !u!199 &351997433
 ParticleSystemRenderer:
   serializedVersion: 6
