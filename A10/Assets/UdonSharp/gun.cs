@@ -9,7 +9,7 @@ public class gun : UdonSharpBehaviour
 {
     [SerializeField] private GameObject Manager;
     public ParticleSystem GunParticle;
-    public int Shake = -1;
+    private float Shake;
     private GameObject bullet;
     private GameObject[] bullets;
 
@@ -17,6 +17,7 @@ public class gun : UdonSharpBehaviour
     {
         bullet = this.gameObject.transform.Find("Bullet").gameObject;
         bullets = new GameObject[4];
+        Shake = 0;
     }
 
     public override void OnPickup()
@@ -53,16 +54,21 @@ public class gun : UdonSharpBehaviour
 
     public void shakeToggle()
     {
-        Shake = Shake * (-1);
+        Shake += 10;
     }
 
     private void Update()
     {
-        if (Shake == 1)
+        if (Shake > 0)
         {
+            Shake -= Time.deltaTime;
             Transform gunTrans = this.transform;
             gunTrans.Rotate(0.0f, 2 * Mathf.Cos(40 * Time.time), 1.5f * Mathf.Cos(30 * Time.time));
-
         }
+    }
+
+    public void Restart()
+    {
+        Shake = 0;
     }
 }

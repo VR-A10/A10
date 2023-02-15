@@ -25,6 +25,9 @@ public class a10 : UdonSharpBehaviour
         }
     }
 
-
+    public void Restart()
+    {
+        hp = 100;
+    }
 
 }
