@@ -16,6 +16,8 @@ public class bullet : SimpleNetworkUdonBehaviour
     private bool shotPositionReceived = false;
     [SerializeField] AudioSource shotSound;
 
+    [SerializeField] GameObject damage0;
+
     void Start()
     {
         GunParticle = this.gameObject.GetComponent<ParticleSystem>();
@@ -51,7 +53,9 @@ public class bullet : SimpleNetworkUdonBehaviour
             if (Networking.IsOwner(Networking.LocalPlayer, other.gameObject))
             {
                 GameObject visionBlock = other.gameObject.transform.parent.Find("Constriction").gameObject;
+                GameObject damagePlane = other.gameObject.transform.parent.Find("damage").gameObject;
                 visionBlock.GetComponent<MeshRenderer>().enabled = !visionBlock.GetComponent<MeshRenderer>().enabled;
+                damagePlane.GetComponent<Animator>().SetTrigger("damaged");
             }
         }
         else if (other.name == "Left Hand" || other.name == "Right Hand")
@@ -61,10 +65,20 @@ public class bullet : SimpleNetworkUdonBehaviour
             {
                 handgun.GetComponent<gun>().shakeToggle();
             }
+            if (Networking.IsOwner(Networking.LocalPlayer, other.gameObject))
+            {
+                GameObject damagePlane = other.gameObject.transform.parent.Find("damage").gameObject;
+                damagePlane.GetComponent<Animator>().SetTrigger("damaged");
+            }
         }
         else if (other.name == "A10")
         {
-            other.gameObject.GetComponent<a10>().A10hit(damage_amount);
+            if (Networking.IsOwner(Networking.LocalPlayer, other.gameObject))
+            {
+                GameObject damagePlane = other.gameObject.transform.parent.Find("damage").gameObject;
+                damagePlane.GetComponent<Animator>().SetTrigger("damaged");
+                other.gameObject.GetComponent<a10>().A10hit(damage_amount);
+            }
         }
 
 
@@ -90,6 +104,7 @@ public class bullet : SimpleNetworkUdonBehaviour
         {
             if (shotPositionReceived)
             {
+                Debug.Log("hihihi");
                 particleTrans.position = shotPosition;
                 particleTrans.forward = GetVector3(value);
                 GunParticle.Play();
