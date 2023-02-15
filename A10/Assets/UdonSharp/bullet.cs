@@ -10,7 +10,7 @@ public class bullet : SimpleNetworkUdonBehaviour
     [SerializeField] private GameObject Manager;
     private GameObject[] targets = new GameObject[4];
     private GameObject handgun;
-    int damage_amount = 10;
+    int damage_amount = 20;
 
     private ParticleSystem GunParticle;
     private Transform particleTrans, initialParticleTrans;
