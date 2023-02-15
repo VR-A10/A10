@@ -16,8 +16,6 @@ public class bullet : SimpleNetworkUdonBehaviour
     private bool shotPositionReceived = false;
     [SerializeField] AudioSource shotSound;
 
-    [SerializeField] GameObject damage0;
-
     void Start()
     {
         GunParticle = this.gameObject.GetComponent<ParticleSystem>();
@@ -56,6 +54,7 @@ public class bullet : SimpleNetworkUdonBehaviour
                 GameObject damagePlane = other.gameObject.transform.parent.Find("damage").gameObject;
                 visionBlock.GetComponent<MeshRenderer>().enabled = !visionBlock.GetComponent<MeshRenderer>().enabled;
                 damagePlane.GetComponent<Animator>().SetTrigger("damaged");
+                HitSoundPlay(other);
             }
         }
         else if (other.name == "Left Hand" || other.name == "Right Hand")
@@ -69,6 +68,7 @@ public class bullet : SimpleNetworkUdonBehaviour
             {
                 GameObject damagePlane = other.gameObject.transform.parent.Find("damage").gameObject;
                 damagePlane.GetComponent<Animator>().SetTrigger("damaged");
+                HitSoundPlay(other);
             }
         }
         else if (other.name == "A10")
@@ -78,6 +78,7 @@ public class bullet : SimpleNetworkUdonBehaviour
                 GameObject damagePlane = other.gameObject.transform.parent.Find("damage").gameObject;
                 damagePlane.GetComponent<Animator>().SetTrigger("damaged");
                 other.gameObject.GetComponent<a10>().A10hit(damage_amount);
+                HitSoundPlay(other);
             }
         }
 
@@ -136,5 +137,11 @@ public class bullet : SimpleNetworkUdonBehaviour
     {
         particleTrans.localPosition = initialParticleTrans.localPosition;
         particleTrans.localRotation = initialParticleTrans.localRotation;
+    }
+
+    private void HitSoundPlay(GameObject obj)
+    {
+        AudioSource hitSound = obj.transform.parent.Find("Hit Sound").gameObject.GetComponent<AudioSource>();
+        hitSound.Play();
     }
 }
