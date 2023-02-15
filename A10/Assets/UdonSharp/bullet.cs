@@ -7,6 +7,8 @@ using tutinoco;
 
 public class bullet : SimpleNetworkUdonBehaviour
 {
+    [SerializeField] private GameObject Manager;
+    private GameObject[] targets = new GameObject[4];
     private GameObject handgun;
     int damage_amount = 10;
 
@@ -14,9 +16,9 @@ public class bullet : SimpleNetworkUdonBehaviour
     private Transform particleTrans, initialParticleTrans;
     private Vector3 shotPosition, shotForward;
     private bool shotPositionReceived = false;
+    private GameObject visionBlock = null;
+    private bool visionBlockDisplayed = false;
     [SerializeField] AudioSource shotSound;
-
-    [SerializeField] GameObject damage0;
 
     void Start()
     {
@@ -25,7 +27,7 @@ public class bullet : SimpleNetworkUdonBehaviour
         GameObject tmp = Instantiate(particleTrans.gameObject);
         tmp.SetActive(false);
         initialParticleTrans = tmp.transform;
-        SimpleNetworkInit(Publisher.Owner);
+        SimpleNetworkInit(Publisher.All);
     }
 
     public void SetHandGun(GameObject gun)
@@ -52,10 +54,13 @@ public class bullet : SimpleNetworkUdonBehaviour
             //other.gameObject.GetComponent<Renderer>().material.color = Color.red;
             if (Networking.IsOwner(Networking.LocalPlayer, other.gameObject))
             {
-                GameObject visionBlock = other.gameObject.transform.parent.Find("Constriction").gameObject;
+                visionBlock = other.gameObject.transform.parent.Find("Constriction").gameObject;
                 GameObject damagePlane = other.gameObject.transform.parent.Find("damage").gameObject;
-                visionBlock.GetComponent<MeshRenderer>().enabled = !visionBlock.GetComponent<MeshRenderer>().enabled;
+                //visionBlock.GetComponent<MeshRenderer>().enabled = true;
                 damagePlane.GetComponent<Animator>().SetTrigger("damaged");
+                HitSoundPlay(other);
+                int isLeft = (other.name == "Left Vision") ? 1 : -1;  // 左なら1, 右なら-1
+                SendEvent("Vision", isLeft * Networking.GetOwner(other).playerId);
             }
         }
         else if (other.name == "Left Hand" || other.name == "Right Hand")
@@ -64,11 +69,14 @@ public class bullet : SimpleNetworkUdonBehaviour
             if ((Networking.IsOwner(Networking.LocalPlayer, other.gameObject)) && (handgun != null))
             {
                 handgun.GetComponent<gun>().shakeToggle();
+                int isLeft = (other.name == "Left Hand") ? 1 : -1;
+                SendEvent("Hand", isLeft * Networking.GetOwner(other).playerId);
             }
             if (Networking.IsOwner(Networking.LocalPlayer, other.gameObject))
             {
                 GameObject damagePlane = other.gameObject.transform.parent.Find("damage").gameObject;
                 damagePlane.GetComponent<Animator>().SetTrigger("damaged");
+                HitSoundPlay(other);
             }
         }
         else if (other.name == "Right Leg" || other.name == "Left Leg")
@@ -99,6 +107,7 @@ public class bullet : SimpleNetworkUdonBehaviour
                 GameObject damagePlane = other.gameObject.transform.parent.Find("damage").gameObject;
                 damagePlane.GetComponent<Animator>().SetTrigger("damaged");
                 other.gameObject.GetComponent<a10>().A10hit(damage_amount);
+                HitSoundPlay(other);
             }
         }
 
@@ -108,17 +117,22 @@ public class bullet : SimpleNetworkUdonBehaviour
     public void Shot()
     {
         InitParticleTrans();
-        SendEvent("ShotPosition", particleTrans.position, true);
-        SendEvent("Shot", particleTrans.forward, true);
+        SendEvent("ShotPosition", particleTrans.position);
+        SendEvent("Shot", particleTrans.forward);
     }
 
     public override void ReceiveEvent(string name, string value)
     {
+        if (targets[0] == null)
+        {
+            targets = Manager.GetComponent<gameManager>().GetTargets();
+        }
+
         if (name == "ShotPosition")
         {
             // 受け取った座標を記憶
             shotPositionReceived = true;
-            shotPosition = GetVector3(value); 
+            shotPosition = GetVector3(value);
         }
 
         if (name == "Shot")
@@ -136,6 +150,82 @@ public class bullet : SimpleNetworkUdonBehaviour
                 shotForward = GetVector3(value);
                 SendCustomEventDelayedSeconds(nameof(DelayedShot), 0.05f);
             }
+        }
+
+        if (name == "Vision")
+        {
+            int val = GetInt(value);
+            bool isLeft = (val > 0);
+            Transform target = null;
+            if (isLeft)
+            {
+                for (int i = 0; i < 4; i++)
+                {
+                    if (Networking.GetOwner(targets[i]).playerId == val && targets[i] != null)
+                    {
+                        target = targets[i].transform.Find("Left Vision");
+                        if (target != null) target.gameObject.SetActive(false);
+                    }
+                }
+            }
+            else
+            {
+                val *= -1;
+                for (int i = 0; i < 4; i++)
+                {
+                    if (Networking.GetOwner(targets[i]).playerId == val && targets[i] != null)
+                    {
+                        target = targets[i].transform.Find("Right Vision");
+                        if (target != null) target.gameObject.SetActive(false);
+                    }
+                }
+            }
+            if (!(target == null || target.parent.Find("Left Vision").gameObject.activeSelf || target.parent.Find("Right Vision").gameObject.activeSelf))
+            {
+                if (Networking.LocalPlayer.playerId == val)
+                {
+                    visionBlockDisplayed = true;
+                }
+            }
+        }
+
+        if (name == "Hand")
+        {
+            int val = GetInt(value);
+            bool isLeft = (val > 0);
+            Transform target = null;
+            if (isLeft)
+            {
+                for (int i = 0; i < 4; i++)
+                {
+                    if (Networking.GetOwner(targets[i]).playerId == val && targets[i] != null)
+                    {
+                        target = targets[i].transform.Find("Left Hand");
+                        if (target != null) target.gameObject.SetActive(false);
+                    }
+                }
+            }
+            else
+            {
+                val *= -1;
+                for (int i = 0; i < 4; i++)
+                {
+                    if (Networking.GetOwner(targets[i]).playerId == val && targets[i] != null)
+                    {
+                        target = targets[i].transform.Find("Right Hand");
+                        if (target != null) target.gameObject.SetActive(false);
+                    }
+                }
+            }
+        }
+    }
+
+    void Update()
+    {
+        if (visionBlockDisplayed && visionBlock != null)
+        {
+            visionBlock.GetComponent<MeshRenderer>().enabled = true;
+            visionBlockDisplayed = false;
         }
     }
 
@@ -156,5 +246,16 @@ public class bullet : SimpleNetworkUdonBehaviour
     {
         particleTrans.localPosition = initialParticleTrans.localPosition;
         particleTrans.localRotation = initialParticleTrans.localRotation;
+    }
+
+    private void HitSoundPlay(GameObject obj)
+    {
+        AudioSource hitSound = obj.transform.parent.Find("Hit Sound").gameObject.GetComponent<AudioSource>();
+        hitSound.Play();
+    }
+
+    private void Constriction(GameObject obj)
+    {
+        obj.GetComponent<MeshRenderer>().enabled = true;
     }
 }
