@@ -37,17 +37,10 @@ public class gun : UdonSharpBehaviour
 
     public override void OnDrop()
     {
-        if (bullets[0] == null)
-        {
-            GameObject[] guns = Manager.GetComponent<gameManager>().GetGuns();
-            for (int i = 0; i < 4; i++)
-            {
-                bullets[i] = guns[i].transform.Find("Bullet").gameObject;
-            }
-        }
         foreach (GameObject bul in bullets)
         {
-            bul.GetComponent<bullet>().ResetHandGun();
+            if (bul != null)
+                bul.GetComponent<bullet>().ResetHandGun();
         }
     }
 
