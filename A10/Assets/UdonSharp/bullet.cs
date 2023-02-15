@@ -104,7 +104,6 @@ public class bullet : SimpleNetworkUdonBehaviour
         {
             if (shotPositionReceived)
             {
-                Debug.Log("hihihi");
                 particleTrans.position = shotPosition;
                 particleTrans.forward = GetVector3(value);
                 GunParticle.Play();
