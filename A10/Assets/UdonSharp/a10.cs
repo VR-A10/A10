@@ -7,6 +7,7 @@ using VRC.Udon;
 public class a10 : UdonSharpBehaviour
 {
     [SerializeField] GameObject gameoverText;
+    [SerializeField] GameObject damagePlane;
     public int hp;
 
     void Start()
@@ -23,5 +24,7 @@ public class a10 : UdonSharpBehaviour
             gameoverText.SetActive(true);
         }
     }
+
+
 
 }

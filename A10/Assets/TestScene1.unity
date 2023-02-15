@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.18028328, g: 0.22571322, b: 0.30692163, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028334, g: 0.22571328, b: 0.3069217, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1683,6 +1683,7 @@ MonoBehaviour:
     SerializationNodes: []
   _udonSharpBackingUdonBehaviour: {fileID: 351997431}
   shotSound: {fileID: 1585521220}
+  damage0: {fileID: 0}
 --- !u!199 &351997433
 ParticleSystemRenderer:
   serializedVersion: 6
@@ -6518,7 +6519,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &371950845
 Transform:
   m_ObjectHideFlags: 0
@@ -11713,6 +11714,7 @@ MonoBehaviour:
     SerializationNodes: []
   _udonSharpBackingUdonBehaviour: {fileID: 396003928}
   shotSound: {fileID: 2014271693}
+  damage0: {fileID: 0}
 --- !u!199 &396003930
 ParticleSystemRenderer:
   serializedVersion: 6
@@ -11861,6 +11863,34 @@ PrefabInstance:
     - target: {fileID: 400000, guid: 537e2130f39616a44abb1c70d58d2593, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 13700000, guid: 537e2130f39616a44abb1c70d58d2593, type: 3}
+      propertyPath: m_DirtyAABB
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 13700000, guid: 537e2130f39616a44abb1c70d58d2593, type: 3}
+      propertyPath: m_AABB.m_Center.x
+      value: 0.000000007450581
+      objectReference: {fileID: 0}
+    - target: {fileID: 13700000, guid: 537e2130f39616a44abb1c70d58d2593, type: 3}
+      propertyPath: m_AABB.m_Center.y
+      value: -0.000077448785
+      objectReference: {fileID: 0}
+    - target: {fileID: 13700000, guid: 537e2130f39616a44abb1c70d58d2593, type: 3}
+      propertyPath: m_AABB.m_Center.z
+      value: -0.000000007450581
+      objectReference: {fileID: 0}
+    - target: {fileID: 13700000, guid: 537e2130f39616a44abb1c70d58d2593, type: 3}
+      propertyPath: m_AABB.m_Extent.x
+      value: 0.09994622
+      objectReference: {fileID: 0}
+    - target: {fileID: 13700000, guid: 537e2130f39616a44abb1c70d58d2593, type: 3}
+      propertyPath: m_AABB.m_Extent.y
+      value: 0.09988101
+      objectReference: {fileID: 0}
+    - target: {fileID: 13700000, guid: 537e2130f39616a44abb1c70d58d2593, type: 3}
+      propertyPath: m_AABB.m_Extent.z
+      value: 0.09960385
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 537e2130f39616a44abb1c70d58d2593, type: 3}
@@ -12193,6 +12223,7 @@ MonoBehaviour:
     SerializationNodes: []
   _udonSharpBackingUdonBehaviour: {fileID: 437051813}
   gameoverText: {fileID: 1394424155}
+  damagePlane: {fileID: 0}
   hp: 0
 --- !u!136 &437051815
 CapsuleCollider:
@@ -12762,6 +12793,34 @@ PrefabInstance:
     - target: {fileID: 400000, guid: 537e2130f39616a44abb1c70d58d2593, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 13700000, guid: 537e2130f39616a44abb1c70d58d2593, type: 3}
+      propertyPath: m_DirtyAABB
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 13700000, guid: 537e2130f39616a44abb1c70d58d2593, type: 3}
+      propertyPath: m_AABB.m_Center.x
+      value: 0.000000007450581
+      objectReference: {fileID: 0}
+    - target: {fileID: 13700000, guid: 537e2130f39616a44abb1c70d58d2593, type: 3}
+      propertyPath: m_AABB.m_Center.y
+      value: -0.000077448785
+      objectReference: {fileID: 0}
+    - target: {fileID: 13700000, guid: 537e2130f39616a44abb1c70d58d2593, type: 3}
+      propertyPath: m_AABB.m_Center.z
+      value: -0.000000007450581
+      objectReference: {fileID: 0}
+    - target: {fileID: 13700000, guid: 537e2130f39616a44abb1c70d58d2593, type: 3}
+      propertyPath: m_AABB.m_Extent.x
+      value: 0.09994622
+      objectReference: {fileID: 0}
+    - target: {fileID: 13700000, guid: 537e2130f39616a44abb1c70d58d2593, type: 3}
+      propertyPath: m_AABB.m_Extent.y
+      value: 0.09988101
+      objectReference: {fileID: 0}
+    - target: {fileID: 13700000, guid: 537e2130f39616a44abb1c70d58d2593, type: 3}
+      propertyPath: m_AABB.m_Extent.z
+      value: 0.09960385
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 537e2130f39616a44abb1c70d58d2593, type: 3}
@@ -13595,6 +13654,7 @@ MonoBehaviour:
     SerializationNodes: []
   _udonSharpBackingUdonBehaviour: {fileID: 633654500}
   gameoverText: {fileID: 757710656}
+  damagePlane: {fileID: 0}
   hp: 0
 --- !u!136 &633654502
 CapsuleCollider:
@@ -18384,6 +18444,7 @@ MonoBehaviour:
     SerializationNodes: []
   _udonSharpBackingUdonBehaviour: {fileID: 647526315}
   shotSound: {fileID: 408940705}
+  damage0: {fileID: 0}
 --- !u!199 &647526317
 ParticleSystemRenderer:
   serializedVersion: 6
@@ -19380,6 +19441,7 @@ MonoBehaviour:
     SerializationNodes: []
   _udonSharpBackingUdonBehaviour: {fileID: 855253704}
   gameoverText: {fileID: 1088954403}
+  damagePlane: {fileID: 0}
   hp: 0
 --- !u!136 &855253706
 CapsuleCollider:
@@ -24694,6 +24756,7 @@ MonoBehaviour:
     SerializationNodes: []
   _udonSharpBackingUdonBehaviour: {fileID: 913669832}
   shotSound: {fileID: 589330773}
+  damage0: {fileID: 0}
 --- !u!199 &913669834
 ParticleSystemRenderer:
   serializedVersion: 6
@@ -25513,6 +25576,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: VRCMirror
+      objectReference: {fileID: 0}
+    - target: {fileID: 2958517746811588876, guid: 70279d83763c0d745a4e513a75053671,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 70279d83763c0d745a4e513a75053671, type: 3}
@@ -26610,6 +26678,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: VRCMirror (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 2958517746811588876, guid: 70279d83763c0d745a4e513a75053671,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 70279d83763c0d745a4e513a75053671, type: 3}
@@ -32994,6 +33067,7 @@ MonoBehaviour:
     SerializationNodes: []
   _udonSharpBackingUdonBehaviour: {fileID: 1681472248}
   gameoverText: {fileID: 1597912690}
+  damagePlane: {fileID: 0}
   hp: 0
 --- !u!136 &1681472250
 CapsuleCollider:
@@ -34213,13 +34287,14 @@ GameObject:
   - component: {fileID: 1951216966}
   - component: {fileID: 1951216965}
   - component: {fileID: 1951216964}
+  - component: {fileID: 1951216967}
   m_Layer: 17
-  m_Name: Plane
+  m_Name: damage
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1951216963
 Transform:
   m_ObjectHideFlags: 0
@@ -34228,7 +34303,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1951216962}
   m_LocalRotation: {x: -0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: -0.479, y: 0, z: 0.348}
+  m_LocalPosition: {x: 0, y: 0, z: 0.348}
   m_LocalScale: {x: 0.1, y: 0.3, z: 0.1}
   m_Children: []
   m_Father: {fileID: 371950845}
@@ -34266,7 +34341,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 2166f6bbfce69594fad494087eca58e8, type: 2}
+  - {fileID: 2100000, guid: 919c65d64ccb15445bebe99217112efd, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -34295,6 +34370,25 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1951216962}
   m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!95 &1951216967
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1951216962}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: ce3b908db68fd524d8e5db796272d37c, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &1951450515
 GameObject:
   m_ObjectHideFlags: 0
