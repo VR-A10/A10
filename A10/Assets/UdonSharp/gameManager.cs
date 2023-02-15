@@ -11,13 +11,26 @@ public class gameManager : UdonSharpBehaviour
     [SerializeField] GameObject target2;
     [SerializeField] GameObject target3;
     [SerializeField] GameObject headAnchor;
+    [SerializeField] GameObject gun0;
+    [SerializeField] GameObject gun1;
+    [SerializeField] GameObject gun2;
+    [SerializeField] GameObject gun3;
     [UdonSynced] private int[] targetAssignment;
     private GameObject[] targets = new GameObject[4];
+    private GameObject[] guns = new GameObject[4];
     bool playerJoined = false;
 
     void Start()
     {
         targetAssignment = new int[4] { -1, -1, -1, -1 };
+        targets[0] = target0;
+        targets[1] = target1;
+        targets[2] = target2;
+        targets[3] = target3;
+        guns[0] = gun0;
+        guns[1] = gun1;
+        guns[2] = gun2;
+        guns[3] = gun3;
     }
 
     void Update()
@@ -41,13 +54,6 @@ public class gameManager : UdonSharpBehaviour
     public override void OnPlayerJoined(VRCPlayerApi player)
     {
         playerJoined = true;
-        if (targets[0] == null)
-        {
-            targets[0] = target0;
-            targets[1] = target1;
-            targets[2] = target2;
-            targets[3] = target3;
-        }
         // Joinしたプレイヤーの同期
         if (Networking.IsOwner(Networking.LocalPlayer, this.gameObject))
         {
@@ -83,5 +89,10 @@ public class gameManager : UdonSharpBehaviour
                 targets[i].SetActive(false);
             }
         }
+    }
+
+    public GameObject[] GetGuns()
+    {
+        return guns;
     }
 }
