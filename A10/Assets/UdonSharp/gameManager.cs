@@ -3,8 +3,9 @@ using UdonSharp;
 using UnityEngine;
 using VRC.SDKBase;
 using VRC.Udon;
+using tutinoco;
 
-public class gameManager : UdonSharpBehaviour
+public class gameManager : SimpleNetworkUdonBehaviour
 {
     [SerializeField] GameObject target0;
     [SerializeField] GameObject target1;
@@ -16,8 +17,10 @@ public class gameManager : UdonSharpBehaviour
     [SerializeField] GameObject gun2;
     [SerializeField] GameObject gun3;
     [UdonSynced] private int[] targetAssignment;
-    private GameObject[] targets = new GameObject[4];
+    [UdonSynced] private int winner;
+    private GameObject[] targets = new GameObject[4], a10s = new GameObject[4], rightHands = new GameObject[4], leftHands = new GameObject[4], rightEyes = new GameObject[4], leftEyes = new GameObject[4];
     private GameObject[] guns = new GameObject[4];
+    private MeshRenderer[] visionBlocks = new MeshRenderer[4];
     bool playerJoined = false;
 
     void Start()
@@ -31,6 +34,16 @@ public class gameManager : UdonSharpBehaviour
         guns[1] = gun1;
         guns[2] = gun2;
         guns[3] = gun3;
+        for (int i = 0; i < 4; i++)
+        {
+            a10s[i] = targets[i].transform.Find("A10").gameObject;
+            rightHands[i] = targets[i].transform.Find("Right Hand").gameObject;
+            leftHands[i] = targets[i].transform.Find("Left Hand").gameObject;
+            rightEyes[i] = targets[i].transform.Find("Right Vision").gameObject;
+            leftEyes[i] = targets[i].transform.Find("Left Vision").gameObject;
+            visionBlocks[i] = targets[i].transform.Find("Constriction").gameObject.GetComponent<MeshRenderer>();
+        }
+        SimpleNetworkInit(Publisher.All);
     }
 
     void Update()
@@ -95,5 +108,37 @@ public class gameManager : UdonSharpBehaviour
     public GameObject[] GetGuns()
     {
         return guns;
+    }
+
+    public GameObject[] GetTargets()
+    {
+        return targets;
+    }
+
+    public void StartGame()
+    {
+        for (int i = 0; i < 4; i++)
+        {
+            a10s[i].SetActive(true);
+            a10s[i].GetComponent<a10>().Restart();
+            rightHands[i].SetActive(true);
+            leftHands[i].SetActive(true);
+            rightEyes[i].SetActive(true);
+            leftEyes[i].SetActive(true);
+            visionBlocks[i].enabled = false;
+        }
+    }
+
+    public void Interact()
+    {
+        SendEvent("GameStart", true, true);
+    }
+
+    public override void ReceiveEvent(string name, string value)
+    {
+        if (name == "GameStart")
+        {
+            StartGame();
+        }
     }
 }
