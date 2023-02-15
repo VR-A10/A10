@@ -75,6 +75,7 @@ public class gameManager : UdonSharpBehaviour
                 GameObject newTarget = targets[targetNum];  // 的を取得する
                 if (!Networking.IsOwner(player, newTarget)) Networking.SetOwner(player, newTarget);  // 同期させるための権限を取得
             }
+            RequestSerialization();
         }
     }
 
