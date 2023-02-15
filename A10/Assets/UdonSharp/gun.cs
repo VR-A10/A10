@@ -5,80 +5,58 @@ using VRC.SDKBase;
 using VRC.Udon;
 using tutinoco;
 
-public class gun : SimpleNetworkUdonBehaviour
+public class gun : UdonSharpBehaviour
 {
+    [SerializeField] private GameObject Manager;
     public ParticleSystem GunParticle;
     public int Shake = -1;
-    private Transform particleTrans, initialParticleTrans;
-    private Vector3 shotPosition, shotForward;
-    private bool shotPositionReceived = false;
+    private GameObject bullet;
+    private GameObject[] bullets;
 
     void Start()
     {
-        particleTrans = this.gameObject.transform.Find("Bullet");
-        GameObject tmp = Instantiate(particleTrans.gameObject);
-        tmp.SetActive(false);
-        initialParticleTrans = tmp.transform;
-        SimpleNetworkInit(Publisher.Owner);
+        bullet = this.gameObject.transform.Find("Bullet").gameObject;
+        bullets = new GameObject[4];
+    }
+
+    public override void OnPickup()
+    {
+        if (bullets[0] == null)
+        {
+            GameObject[] guns = Manager.GetComponent<gameManager>().GetGuns();
+            for (int i = 0; i < 4; i++)
+            {
+                bullets[i] = guns[i].transform.Find("Bullet").gameObject;
+            }
+        }
+        foreach (GameObject bul in bullets)
+        {
+            bul.GetComponent<bullet>().SetHandGun(this.gameObject);
+        }
+    }
+
+    public override void OnDrop()
+    {
+        if (bullets[0] == null)
+        {
+            GameObject[] guns = Manager.GetComponent<gameManager>().GetGuns();
+            for (int i = 0; i < 4; i++)
+            {
+                bullets[i] = guns[i].transform.Find("Bullet").gameObject;
+            }
+        }
+        foreach (GameObject bul in bullets)
+        {
+            bul.GetComponent<bullet>().ResetHandGun();
+        }
     }
 
     public override void OnPickupUseDown()
     {
         base.OnPickupUseDown();
-        SendEvent("ShotPosition", particleTrans.position);
-        SendEvent("Shot", particleTrans.forward);
+        bullet.GetComponent<bullet>().Shot();
     }
 
-    public override void ReceiveEvent(string name, string value)
-    {
-        if (name == "ShotPosition")
-        {
-            // 受け取った座標を記憶
-            shotPositionReceived = true;
-            shotPosition = GetVector3(value);
-        }
-
-        if (name == "Shot")
-        {
-            if (shotPositionReceived)
-            {
-                particleTrans.position = shotPosition;
-                particleTrans.forward = GetVector3(value);
-                Shot();
-                shotPositionReceived = false;
-                InitParticleTrans();
-            }
-            else
-            {
-                shotForward = GetVector3(value);
-                SendCustomEventDelayedSeconds(nameof(DelayedShot), 0.05f);
-            }
-        }
-    }
-
-    public void DelayedShot()
-    {
-        if (shotPositionReceived)
-        {
-            particleTrans.position = shotPosition;
-            particleTrans.forward = shotForward;
-            Shot();
-            shotPositionReceived = false;
-            InitParticleTrans();
-        }
-        else SendCustomEventDelayedSeconds(nameof(DelayedShot), 0.05f);
-    }
-
-    private void InitParticleTrans()
-    {
-        particleTrans.localPosition = initialParticleTrans.localPosition;
-        particleTrans.localRotation = initialParticleTrans.localRotation;
-    }
-
-    public void Shot()
-    {
-        GunParticle.Play();
-    }
 
     public void shakeToggle()
     {
