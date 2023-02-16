@@ -22,7 +22,7 @@ public class gameManager : SimpleNetworkUdonBehaviour
     [SerializeField] GameObject spawn3;
     [UdonSynced] private int[] targetAssignment;
     [UdonSynced] private int winner;
-    private GameObject[] targets = new GameObject[4], a10s = new GameObject[4], rightHands = new GameObject[4], leftHands = new GameObject[4], rightEyes = new GameObject[4], leftEyes = new GameObject[4];
+    private GameObject[] targets = new GameObject[4], a10s = new GameObject[4], rightHands = new GameObject[4], leftHands = new GameObject[4], rightEyes = new GameObject[4], leftEyes = new GameObject[4], rightLegs = new GameObject[4], leftLegs = new GameObject[4];
     private GameObject[] guns = new GameObject[4];
     private GameObject[] spawns = new GameObject[4];
     private MeshRenderer[] visionBlocks = new MeshRenderer[4];
@@ -52,6 +52,8 @@ public class gameManager : SimpleNetworkUdonBehaviour
             rightEyes[i] = targets[i].transform.Find("Right Vision").gameObject;
             leftEyes[i] = targets[i].transform.Find("Left Vision").gameObject;
             visionBlocks[i] = targets[i].transform.Find("Constriction").gameObject.GetComponent<MeshRenderer>();
+            rightLegs[i] = targets[i].transform.Find("Right Leg").gameObject;
+            leftLegs[i] = targets[i].transform.Find("Left Leg").gameObject;
         }
         SimpleNetworkInit(Publisher.All);
     }
@@ -136,6 +138,8 @@ public class gameManager : SimpleNetworkUdonBehaviour
             rightEyes[i].SetActive(true);
             leftEyes[i].SetActive(true);
             visionBlocks[i].enabled = false;
+            rightLegs[i].SetActive(true);
+            leftLegs[i].SetActive(true);
             Networking.LocalPlayer.SetWalkSpeed(2.0f);
             Networking.LocalPlayer.SetRunSpeed(4.0f);
             Networking.LocalPlayer.SetStrafeSpeed(2.0f);
@@ -155,7 +159,7 @@ public class gameManager : SimpleNetworkUdonBehaviour
         {
             StartGame(); 
             var player = Networking.LocalPlayer;
-            player.TeleportTo(spawns[player.playerId - 1].transform.position, spawns[player.playerId - 1].transform.rotation);
+            player.TeleportTo(spawns[(player.playerId - 1) % 4].transform.position, spawns[(player.playerId - 1) % 4].transform.rotation);
 
         }
     }

@@ -85,6 +85,9 @@ public class bullet : SimpleNetworkUdonBehaviour
             {
                 GameObject damagePlane = other.gameObject.transform.parent.Find("damage").gameObject;
                 damagePlane.GetComponent<Animator>().SetTrigger("damaged");
+                HitSoundPlay(other);
+                int isLeft = (other.name == "Left Leg") ? 1 : -1;
+                SendEvent("Leg", isLeft * Networking.GetOwner(other).playerId);
                 if (Networking.LocalPlayer.GetWalkSpeed() > 1.5f)
                 {
                     Networking.LocalPlayer.SetWalkSpeed(1.0f);
@@ -213,6 +216,36 @@ public class bullet : SimpleNetworkUdonBehaviour
                     if (Networking.GetOwner(targets[i]).playerId == val && targets[i] != null)
                     {
                         target = targets[i].transform.Find("Right Hand");
+                        if (target != null) target.gameObject.SetActive(false);
+                    }
+                }
+            }
+        }
+
+        if (name == "Leg")
+        {
+            int val = GetInt(value);
+            bool isLeft = (val > 0);
+            Transform target = null;
+            if (isLeft)
+            {
+                for (int i = 0; i < 4; i++)
+                {
+                    if (Networking.GetOwner(targets[i]).playerId == val && targets[i] != null)
+                    {
+                        target = targets[i].transform.Find("Left Leg");
+                        if (target != null) target.gameObject.SetActive(false);
+                    }
+                }
+            }
+            else
+            {
+                val *= -1;
+                for (int i = 0; i < 4; i++)
+                {
+                    if (Networking.GetOwner(targets[i]).playerId == val && targets[i] != null)
+                    {
+                        target = targets[i].transform.Find("Right Leg");
                         if (target != null) target.gameObject.SetActive(false);
                     }
                 }
