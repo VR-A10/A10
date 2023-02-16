@@ -10,7 +10,7 @@ public class bullet : SimpleNetworkUdonBehaviour
     [SerializeField] private GameObject Manager;
     private GameObject[] targets = new GameObject[4];
     private GameObject handgun;
-    int damage_amount = 10;
+    int damage_amount = 20;
 
     private ParticleSystem GunParticle;
     private Transform particleTrans, initialParticleTrans;
@@ -79,6 +79,27 @@ public class bullet : SimpleNetworkUdonBehaviour
                 HitSoundPlay(other);
             }
         }
+        else if (other.name == "Right Leg" || other.name == "Left Leg")
+        {
+            if (Networking.IsOwner(Networking.LocalPlayer, other.gameObject))
+            {
+                GameObject damagePlane = other.gameObject.transform.parent.Find("damage").gameObject;
+                damagePlane.GetComponent<Animator>().SetTrigger("damaged");
+                if (Networking.LocalPlayer.GetWalkSpeed() > 1.5f)
+                {
+                    Networking.LocalPlayer.SetWalkSpeed(1.0f);
+                    Networking.LocalPlayer.SetRunSpeed(2.0f);
+                    Networking.LocalPlayer.SetStrafeSpeed(1.0f);
+                    Networking.LocalPlayer.SetJumpImpulse(1.0f);
+                } else
+                {
+                    Networking.LocalPlayer.SetWalkSpeed(0.1f);
+                    Networking.LocalPlayer.SetRunSpeed(0.1f);
+                    Networking.LocalPlayer.SetStrafeSpeed(0.1f);
+                    Networking.LocalPlayer.SetJumpImpulse(0.0f);
+                }
+            }
+        }
         else if (other.name == "A10")
         {
             if (Networking.IsOwner(Networking.LocalPlayer, other.gameObject))
@@ -118,7 +139,6 @@ public class bullet : SimpleNetworkUdonBehaviour
         {
             if (shotPositionReceived)
             {
-                Debug.Log("hihihi");
                 particleTrans.position = shotPosition;
                 particleTrans.forward = GetVector3(value);
                 GunParticle.Play();
