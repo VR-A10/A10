@@ -7335,7 +7335,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MomentumTransferMethod: 0
-  DisallowTheft: 0
+  DisallowTheft: 1
   ExactGun: {fileID: 389447061}
   ExactGrip: {fileID: 2081021779}
   allowManipulationWhenEquipped: 1
@@ -20510,7 +20510,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MomentumTransferMethod: 0
-  DisallowTheft: 0
+  DisallowTheft: 1
   ExactGun: {fileID: 897509031}
   ExactGrip: {fileID: 39312832}
   allowManipulationWhenEquipped: 1
@@ -36212,7 +36212,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MomentumTransferMethod: 0
-  DisallowTheft: 0
+  DisallowTheft: 1
   ExactGun: {fileID: 1951450524}
   ExactGrip: {fileID: 984287526}
   allowManipulationWhenEquipped: 1
@@ -37757,7 +37757,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MomentumTransferMethod: 0
-  DisallowTheft: 0
+  DisallowTheft: 1
   ExactGun: {fileID: 1927451221905001480}
   ExactGrip: {fileID: 1717329576}
   allowManipulationWhenEquipped: 1
