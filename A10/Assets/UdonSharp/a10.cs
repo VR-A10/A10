@@ -1,12 +1,13 @@
 ﻿
 using UdonSharp;
 using UnityEngine;
+using UnityEngine.UI;
 using VRC.SDKBase;
 using VRC.Udon;
 
 public class a10 : UdonSharpBehaviour
 {
-    [SerializeField] GameObject gameoverText;
+    [SerializeField] Text gameoverText;
     [SerializeField] GameObject damagePlane;
     public int hp;
 
@@ -21,13 +22,15 @@ public class a10 : UdonSharpBehaviour
         Debug.Log("HIT! Remaining HP:"+ hp.ToString());
         if (hp <= 0)
         {
-            gameoverText.SetActive(true);
+            //gameoverText.SetActive(true);
+            gameoverText.enabled = true;
         }
     }
 
     public void Restart()
     {
         hp = 100;
+        gameoverText.enabled = false;
     }
 
 }
