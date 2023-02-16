@@ -74,6 +74,8 @@ public class gun : UdonSharpBehaviour
         {
             Shake -= Time.deltaTime;
             gunTrans.Rotate(0.0f, 2 * Mathf.Cos(40 * Time.time), 1.5f * Mathf.Cos(30 * Time.time));
+            Networking.LocalPlayer.PlayHapticEventInHand(VRC_Pickup.PickupHand.Left, 1.0f, 1.0f, 1.0f);
+            Networking.LocalPlayer.PlayHapticEventInHand(VRC_Pickup.PickupHand.Right, 1.0f, 1.0f, 1.0f);
         }
         else InitGunTrans();
 
