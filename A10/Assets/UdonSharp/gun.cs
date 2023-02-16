@@ -12,11 +12,20 @@ public class gun : UdonSharpBehaviour
     private float Shake;
     private GameObject bullet;
     private GameObject[] bullets;
+    private Transform gunTrans;
+    private Transform initialGunTrans;
+    private GameObject laser;
 
     void Start()
     {
-        bullet = this.gameObject.transform.Find("Bullet").gameObject;
+        gunTrans = this.gameObject.transform.Find("Visual");
+        bullet = gunTrans.Find("Bullet").gameObject;
+        laser = bullet.transform.Find("RaycastLaser *").gameObject;
+        laser.SetActive(false);
         bullets = new GameObject[4];
+        GameObject tmp = Instantiate(gunTrans.gameObject);
+        tmp.SetActive(false);
+        initialGunTrans = tmp.transform;
         Shake = 0;
     }
 
@@ -27,13 +36,14 @@ public class gun : UdonSharpBehaviour
             GameObject[] guns = Manager.GetComponent<gameManager>().GetGuns();
             for (int i = 0; i < 4; i++)
             {
-                bullets[i] = guns[i].transform.Find("Bullet").gameObject;
+                bullets[i] = guns[i].transform.Find("Visual/Bullet").gameObject;
             }
         }
         foreach (GameObject bul in bullets)
         {
             bul.GetComponent<bullet>().SetHandGun(this.gameObject);
         }
+        laser.SetActive(true);
     }
 
     public override void OnDrop()
@@ -43,6 +53,7 @@ public class gun : UdonSharpBehaviour
             if (bul != null)
                 bul.GetComponent<bullet>().ResetHandGun();
         }
+        laser.SetActive(false);
     }
 
     public override void OnPickupUseDown()
@@ -62,13 +73,20 @@ public class gun : UdonSharpBehaviour
         if (Shake > 0)
         {
             Shake -= Time.deltaTime;
-            Transform gunTrans = this.transform;
             gunTrans.Rotate(0.0f, 2 * Mathf.Cos(40 * Time.time), 1.5f * Mathf.Cos(30 * Time.time));
         }
+        else InitGunTrans();
+
     }
 
     public void Restart()
     {
         Shake = 0;
+    }
+
+    private void InitGunTrans()
+    {
+        gunTrans.localPosition = initialGunTrans.localPosition;
+        gunTrans.localRotation = initialGunTrans.localRotation;
     }
 }
