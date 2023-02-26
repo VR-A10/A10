@@ -127,12 +127,12 @@ public class gameManager : SimpleNetworkUdonBehaviour
         return targets;
     }
 
-    public void StartGame()
+    public void Reset(bool startGame)
     {
         for (int i = 0; i < 4; i++)
         {
             a10s[i].SetActive(true);
-            a10s[i].GetComponent<a10>().Restart();
+            if (startGame) a10s[i].GetComponent<a10>().Restart(targetAssignment);
             rightHands[i].SetActive(true);
             leftHands[i].SetActive(true);
             rightEyes[i].SetActive(true);
@@ -157,10 +157,27 @@ public class gameManager : SimpleNetworkUdonBehaviour
     {
         if (name == "GameStart")
         {
-            StartGame(); 
+            Reset(true); 
             var player = Networking.LocalPlayer;
             player.TeleportTo(spawns[(player.playerId - 1) % 4].transform.position, spawns[(player.playerId - 1) % 4].transform.rotation);
 
+<<<<<<< Updated upstream
+=======
+        if (name == "GameEnd")
+        {
+            Reset(false);
+            var player = Networking.LocalPlayer;
+            player.TeleportTo(waitingSpawns[(player.playerId - 1) % 4].transform.position, waitingSpawns[(player.playerId - 1) % 4].transform.rotation);
+            for (int i = 0; i < 4; i++)
+            {
+                guns[i].transform.position = waitingSpawns[i].transform.position + new Vector3(0f, 0.2f, 0f);
+            }
+            if (isGame)
+            {
+                isGame = false;
+                RequestSerialization();
+            }
+>>>>>>> Stashed changes
         }
     }
 }

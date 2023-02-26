@@ -12678,8 +12678,14 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   _udonSharpBackingUdonBehaviour: {fileID: 437051813}
+<<<<<<< Updated upstream
   gameoverText: {fileID: 1394424155}
   damagePlane: {fileID: 0}
+=======
+  canvas: {fileID: 510120763}
+  damagePlane: {fileID: 191409123}
+  Manager: {fileID: 147402392}
+>>>>>>> Stashed changes
   hp: 0
 --- !u!136 &437051815
 CapsuleCollider:
@@ -19329,8 +19335,14 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   _udonSharpBackingUdonBehaviour: {fileID: 633654500}
+<<<<<<< Updated upstream
   gameoverText: {fileID: 757710656}
   damagePlane: {fileID: 0}
+=======
+  canvas: {fileID: 88657419}
+  damagePlane: {fileID: 2134170748}
+  Manager: {fileID: 147402392}
+>>>>>>> Stashed changes
   hp: 0
 --- !u!136 &633654502
 CapsuleCollider:
@@ -20545,8 +20557,14 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   _udonSharpBackingUdonBehaviour: {fileID: 855253704}
+<<<<<<< Updated upstream
   gameoverText: {fileID: 1088954403}
   damagePlane: {fileID: 0}
+=======
+  canvas: {fileID: 469760626}
+  damagePlane: {fileID: 1951216962}
+  Manager: {fileID: 147402392}
+>>>>>>> Stashed changes
   hp: 0
 --- !u!136 &855253706
 CapsuleCollider:
@@ -27188,6 +27206,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_IsActive
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5499662108231401120, guid: 70279d83763c0d745a4e513a75053671,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 70279d83763c0d745a4e513a75053671, type: 3}
@@ -35827,8 +35850,14 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   _udonSharpBackingUdonBehaviour: {fileID: 1681472248}
+<<<<<<< Updated upstream
   gameoverText: {fileID: 1597912690}
   damagePlane: {fileID: 0}
+=======
+  canvas: {fileID: 1675595538}
+  damagePlane: {fileID: 1141095305}
+  Manager: {fileID: 147402392}
+>>>>>>> Stashed changes
   hp: 0
 --- !u!136 &1681472250
 CapsuleCollider:
