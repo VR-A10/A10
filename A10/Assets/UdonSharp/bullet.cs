@@ -5,6 +5,7 @@ using VRC.SDKBase;
 using VRC.Udon;
 using tutinoco;
 
+[UdonBehaviourSyncMode(BehaviourSyncMode.Manual)]
 public class bullet : SimpleNetworkUdonBehaviour
 {
     [SerializeField] private GameObject Manager;
@@ -109,7 +110,7 @@ public class bullet : SimpleNetworkUdonBehaviour
             {
                 GameObject damagePlane = other.gameObject.transform.parent.Find("damage").gameObject;
                 damagePlane.GetComponent<Animator>().SetTrigger("damaged");
-                other.gameObject.GetComponent<a10>().A10hit(damage_amount);
+                other.gameObject.transform.Find("Script").gameObject.GetComponent<a10>().A10hit(damage_amount);
                 HitSoundPlay(other);
             }
         }

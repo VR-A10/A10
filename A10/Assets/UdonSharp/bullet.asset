@@ -19,7 +19,7 @@ MonoBehaviour:
   sourceCsScript: {fileID: 11500000, guid: ca30f7f3a16edbe428eb7dc393d44587, type: 3}
   scriptVersion: 2
   compiledVersion: 2
-  behaviourSyncMode: 0
+  behaviourSyncMode: 4
   hasInteractEvent: 0
   scriptID: 5998248246930772717
   serializationData:
