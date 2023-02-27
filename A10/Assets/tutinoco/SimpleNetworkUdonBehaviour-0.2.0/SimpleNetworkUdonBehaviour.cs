@@ -32,7 +32,7 @@ namespace tutinoco
             get { return _cmds; }
             set {
                 _cmds = value;
-                if( _ignoreJoinSync && Networking.LocalPlayer.isMaster ) _isIgnoredJoinSync = true;
+                if( _ignoreJoinSync && Networking.LocalPlayer != null && Networking.LocalPlayer.isMaster ) _isIgnoredJoinSync = true;
                 if( Networking.IsOwner(gameObject) || !_isStandby ) return;
                 if( _ignoreJoinSync && !_isIgnoredJoinSync ) { _isIgnoredJoinSync=true; return; }
                 _Receives();

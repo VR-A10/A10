@@ -74,10 +74,13 @@ namespace Pokeyi.UdonSharp
 
         public override void PostLateUpdate()
         {   // Per-frame tracking:
-            originData = playerLocal.GetTrackingData(VRCPlayerApi.TrackingDataType.Origin);
-            headData = playerLocal.GetTrackingData(VRCPlayerApi.TrackingDataType.Head);
-            leftHandData = playerLocal.GetTrackingData(VRCPlayerApi.TrackingDataType.LeftHand);
-            rightHandData = playerLocal.GetTrackingData(VRCPlayerApi.TrackingDataType.RightHand);
+            if (playerLocal != null)
+            {
+                originData = playerLocal.GetTrackingData(VRCPlayerApi.TrackingDataType.Origin);
+                headData = playerLocal.GetTrackingData(VRCPlayerApi.TrackingDataType.Head);
+                leftHandData = playerLocal.GetTrackingData(VRCPlayerApi.TrackingDataType.LeftHand);
+                rightHandData = playerLocal.GetTrackingData(VRCPlayerApi.TrackingDataType.RightHand);
+            }
             if (useAttachments) UpdateAttachments();
         }
 
@@ -87,17 +90,17 @@ namespace Pokeyi.UdonSharp
             if (headAttachment != null) headAttachment.transform.SetPositionAndRotation(headData.position, headData.rotation);
             if (leftHandAttachment != null) leftHandAttachment.transform.SetPositionAndRotation(leftHandData.position, leftHandData.rotation);
             if (rightHandAttachment != null) rightHandAttachment.transform.SetPositionAndRotation(rightHandData.position, rightHandData.rotation);
-            if (leftFootAttachment != null) leftFootAttachment.transform.SetPositionAndRotation(playerLocal.GetBonePosition(leftFootBone), playerLocal.GetBoneRotation(leftFootBone));
-            if (rightFootAttachment != null) rightFootAttachment.transform.SetPositionAndRotation(playerLocal.GetBonePosition(rightFootBone), playerLocal.GetBoneRotation(rightFootBone));
-            if (leftLowerArmAttachment != null) leftLowerArmAttachment.transform.SetPositionAndRotation(playerLocal.GetBonePosition(leftLowerArmBone), playerLocal.GetBoneRotation(leftLowerArmBone));
-            if (rightLowerArmAttachment != null) rightLowerArmAttachment.transform.SetPositionAndRotation(playerLocal.GetBonePosition(rightLowerArmBone), playerLocal.GetBoneRotation(rightLowerArmBone));
-            if (leftUpperArmAttachment != null) leftUpperArmAttachment.transform.SetPositionAndRotation(playerLocal.GetBonePosition(leftUpperArmBone), playerLocal.GetBoneRotation(leftUpperArmBone));
-            if (rightUpperArmAttachment != null) rightUpperArmAttachment.transform.SetPositionAndRotation(playerLocal.GetBonePosition(rightUpperArmBone), playerLocal.GetBoneRotation(rightUpperArmBone));
-            if (leftLowerLegAttachment != null) leftLowerLegAttachment.transform.SetPositionAndRotation(playerLocal.GetBonePosition(leftLowerLegBone), playerLocal.GetBoneRotation(leftLowerLegBone));
-            if (rightLowerLegAttachment != null) rightLowerLegAttachment.transform.SetPositionAndRotation(playerLocal.GetBonePosition(rightLowerLegBone), playerLocal.GetBoneRotation(rightLowerLegBone));
-            if (leftUpperLegAttachment != null) leftUpperLegAttachment.transform.SetPositionAndRotation(playerLocal.GetBonePosition(leftUpperLegBone), playerLocal.GetBoneRotation(leftUpperLegBone));
-            if (rightUpperLegAttachment != null) rightUpperLegAttachment.transform.SetPositionAndRotation(playerLocal.GetBonePosition(rightUpperLegBone), playerLocal.GetBoneRotation(rightUpperLegBone));
-            if (chestAttachment != null) chestAttachment.transform.SetPositionAndRotation(playerLocal.GetBonePosition(chestBone), playerLocal.GetBoneRotation(chestBone));
+            if (leftFootAttachment != null && playerLocal != null) leftFootAttachment.transform.SetPositionAndRotation(playerLocal.GetBonePosition(leftFootBone), playerLocal.GetBoneRotation(leftFootBone));
+            if (rightFootAttachment != null && playerLocal != null) rightFootAttachment.transform.SetPositionAndRotation(playerLocal.GetBonePosition(rightFootBone), playerLocal.GetBoneRotation(rightFootBone));
+            if (leftLowerArmAttachment != null && playerLocal != null) leftLowerArmAttachment.transform.SetPositionAndRotation(playerLocal.GetBonePosition(leftLowerArmBone), playerLocal.GetBoneRotation(leftLowerArmBone));
+            if (rightLowerArmAttachment != null && playerLocal != null) rightLowerArmAttachment.transform.SetPositionAndRotation(playerLocal.GetBonePosition(rightLowerArmBone), playerLocal.GetBoneRotation(rightLowerArmBone));
+            if (leftUpperArmAttachment != null && playerLocal != null) leftUpperArmAttachment.transform.SetPositionAndRotation(playerLocal.GetBonePosition(leftUpperArmBone), playerLocal.GetBoneRotation(leftUpperArmBone));
+            if (rightUpperArmAttachment != null && playerLocal != null) rightUpperArmAttachment.transform.SetPositionAndRotation(playerLocal.GetBonePosition(rightUpperArmBone), playerLocal.GetBoneRotation(rightUpperArmBone));
+            if (leftLowerLegAttachment != null && playerLocal != null) leftLowerLegAttachment.transform.SetPositionAndRotation(playerLocal.GetBonePosition(leftLowerLegBone), playerLocal.GetBoneRotation(leftLowerLegBone));
+            if (rightLowerLegAttachment != null && playerLocal != null) rightLowerLegAttachment.transform.SetPositionAndRotation(playerLocal.GetBonePosition(rightLowerLegBone), playerLocal.GetBoneRotation(rightLowerLegBone));
+            if (leftUpperLegAttachment != null && playerLocal != null) leftUpperLegAttachment.transform.SetPositionAndRotation(playerLocal.GetBonePosition(leftUpperLegBone), playerLocal.GetBoneRotation(leftUpperLegBone));
+            if (rightUpperLegAttachment != null && playerLocal != null) rightUpperLegAttachment.transform.SetPositionAndRotation(playerLocal.GetBonePosition(rightUpperLegBone), playerLocal.GetBoneRotation(rightUpperLegBone));
+            if (chestAttachment != null && playerLocal != null) chestAttachment.transform.SetPositionAndRotation(playerLocal.GetBonePosition(chestBone), playerLocal.GetBoneRotation(chestBone));
         }
     }
 }
