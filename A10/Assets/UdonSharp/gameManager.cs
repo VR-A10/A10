@@ -71,6 +71,7 @@ public class gameManager : SimpleNetworkUdonBehaviour
             for (int i = 0; i < 4; i++)
             {
                 if (targetAssignment[i] != -1) targets[i].SetActive(true);  // プレイヤーに割り当てられている的を有効化
+                else targets[i].SetActive(false);
                 if (targetAssignment[i] == Networking.LocalPlayer.playerId)
                 {
                     targets[i].transform.parent = headAnchor.transform;  // 頭に付ける
@@ -103,7 +104,11 @@ public class gameManager : SimpleNetworkUdonBehaviour
             if (targetNum != -1)
             {
                 GameObject newTarget = targets[targetNum];  // 的を取得する
-                if (!Networking.IsOwner(player, newTarget)) Networking.SetOwner(player, newTarget);  // 同期させるための権限を取得
+                if (!Networking.IsOwner(player, newTarget))
+                {
+                    Networking.SetOwner(player, newTarget);  // 同期させるための権限を取得
+                    Networking.SetOwner(player, newTarget.transform.Find("A10").gameObject);  // UdonSharpをアタッチしたオブジェクトのオーナーシップは明示的に移す
+                }            
             }
             RequestSerialization();
         }
@@ -138,7 +143,7 @@ public class gameManager : SimpleNetworkUdonBehaviour
         for (int i = 0; i < 4; i++)
         {
             a10s[i].SetActive(true);
-            if (startGame) a10s[i].GetComponent<a10>().Restart(/*targetAssignment*/);
+            if (startGame) a10s[i].GetComponent<a10>().Restart(targetAssignment);
             rightHands[i].SetActive(true);
             leftHands[i].SetActive(true);
             rightEyes[i].SetActive(true);
@@ -179,7 +184,7 @@ public class gameManager : SimpleNetworkUdonBehaviour
             int loser = GetInt(value);
             var player = Networking.LocalPlayer;
             player.TeleportTo(waitingSpawns[(player.playerId - 1) % 4].transform.position, waitingSpawns[(player.playerId - 1) % 4].transform.rotation);
-            for (int i = 0; i < 4; i++)
+            for (int i = 0; i < 8; i++)
             {
                 guns[i].transform.position = gunSpawns[i];
             }
@@ -187,6 +192,32 @@ public class gameManager : SimpleNetworkUdonBehaviour
             {
                 isGame = false;
                 RequestSerialization();
+                for (int i = 0; i < 4; i++)
+                {
+                    if (targetAssignment[i] == Networking.LocalPlayer.playerId)
+                    {
+                        if (Networking.LocalPlayer.playerId == loser) a10s[i].GetComponent<a10>().GameoverTextChanger("GAME OVER");
+                        else a10s[i].GetComponent<a10>().GameoverTextChanger("YOU WIN");
+                    }
+                }
+            }
+        }
+
+        if (name == "A10hit")
+        {
+            int n = GetInt(value);
+            int playerid = n / 200, hp = n % 200;
+            int i;
+            for (i = 0; i < 4; i++)
+            {
+                if (targetAssignment[i] == playerid) break;
+            }
+            for (int j = 0; j < 4; j++)
+            {
+                if (targetAssignment[j] > 0)
+                {
+                    a10s[j].GetComponent<a10>().HPTextChanger(i, false, "", hp.ToString());
+                }
             }
         }
     }
@@ -194,5 +225,21 @@ public class gameManager : SimpleNetworkUdonBehaviour
     public void GameEnd(int loser)
     {
         SendEvent("GameEnd", loser);
+    }
+
+    public void A10hit(int playerid, int hp)
+    {
+        SendEvent("A10hit", playerid * 200 + hp);
+    }
+
+    public void Out(int loser)
+    {
+        for (int i = 0; i < 4; i++)
+        {
+            if (targetAssignment[i] == loser)
+            {
+                a10s[i].GetComponent<a10>().A10hit(100);
+            }
+        }
     }
 }
