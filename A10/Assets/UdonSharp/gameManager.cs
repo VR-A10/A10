@@ -16,19 +16,19 @@ public class gameManager : SimpleNetworkUdonBehaviour
     [SerializeField] GameObject gun1;
     [SerializeField] GameObject gun2;
     [SerializeField] GameObject gun3;
+    [SerializeField] GameObject gun4;
+    [SerializeField] GameObject gun5;
+    [SerializeField] GameObject gun6;
+    [SerializeField] GameObject gun7;
     [SerializeField] GameObject battleField;
     [SerializeField] GameObject waitingField;
-    //[SerializeField] GameObject spawn0;
-    //[SerializeField] GameObject spawn1;
-    //[SerializeField] GameObject spawn2;
-    //[SerializeField] GameObject spawn3;
     [UdonSynced] private int[] targetAssignment;
-    [UdonSynced] private int loser;
     [UdonSynced] private bool isGame = false;
     private GameObject[] targets = new GameObject[4], a10s = new GameObject[4], rightHands = new GameObject[4], leftHands = new GameObject[4], rightEyes = new GameObject[4], leftEyes = new GameObject[4], rightLegs = new GameObject[4], leftLegs = new GameObject[4];
-    private GameObject[] guns = new GameObject[4];
+    private GameObject[] guns = new GameObject[8];
     private GameObject[] battleSpawns = new GameObject[4], waitingSpawns = new GameObject[4];
     private MeshRenderer[] visionBlocks = new MeshRenderer[4];
+    private Vector3[] gunSpawns = new Vector3[8] { new Vector3(1.5f, 0.8f, 1.8f), new Vector3(1.5f, 0.8f, 1.4f), new Vector3(1.5f, 0.8f, 1.0f), new Vector3(1.5f, 0.8f, 0.6f), new Vector3(-1.5f, 0.8f, 1.8f), new Vector3(-1.5f, 0.8f, 1.4f), new Vector3(-1.5f, 0.8f, 1.0f), new Vector3(-1.5f, 0.8f, 0.6f) };
     bool playerJoined = false;
 
     void Start()
@@ -42,10 +42,10 @@ public class gameManager : SimpleNetworkUdonBehaviour
         guns[1] = gun1;
         guns[2] = gun2;
         guns[3] = gun3;
-        //spawns[0] = spawn0;
-        //spawns[1] = spawn1;
-        //spawns[2] = spawn2;
-        //spawns[3] = spawn3;
+        guns[4] = gun4;
+        guns[5] = gun5;
+        guns[6] = gun6;
+        guns[7] = gun7;
 
         for (int i = 0; i < 4; i++)
         {
@@ -116,11 +116,8 @@ public class gameManager : SimpleNetworkUdonBehaviour
         {
             if (targetAssignment[i] == player.playerId)
             {
-                if (Networking.IsOwner(Networking.LocalPlayer, this.gameObject))
-                {
-                    targetAssignment[i] = -1;
-                    RequestSerialization();
-                }
+                targetAssignment[i] = -1;
+                RequestSerialization();
                 targets[i].SetActive(false);
             }
         }
@@ -136,12 +133,12 @@ public class gameManager : SimpleNetworkUdonBehaviour
         return targets;
     }
 
-    public void StartGame()
+    public void Reset(bool startGame)
     {
         for (int i = 0; i < 4; i++)
         {
             a10s[i].SetActive(true);
-            a10s[i].GetComponent<a10>().Restart();
+            if (startGame) a10s[i].GetComponent<a10>().Restart(/*targetAssignment*/);
             rightHands[i].SetActive(true);
             leftHands[i].SetActive(true);
             rightEyes[i].SetActive(true);
@@ -166,7 +163,7 @@ public class gameManager : SimpleNetworkUdonBehaviour
     {
         if (name == "GameStart")
         {
-            StartGame(); 
+            Reset(true); 
             var player = Networking.LocalPlayer;
             player.TeleportTo(battleSpawns[(player.playerId - 1) % 4].transform.position, battleSpawns[(player.playerId - 1) % 4].transform.rotation);
             if (Networking.IsOwner(Networking.LocalPlayer, this.gameObject))
@@ -178,11 +175,13 @@ public class gameManager : SimpleNetworkUdonBehaviour
 
         if (name == "GameEnd")
         {
+            Reset(false);
+            int loser = GetInt(value);
             var player = Networking.LocalPlayer;
             player.TeleportTo(waitingSpawns[(player.playerId - 1) % 4].transform.position, waitingSpawns[(player.playerId - 1) % 4].transform.rotation);
             for (int i = 0; i < 4; i++)
             {
-                guns[i].transform.position = waitingSpawns[i].transform.position + new Vector3(0f, 0.2f, 0f);
+                guns[i].transform.position = gunSpawns[i];
             }
             if (isGame)
             {
@@ -192,10 +191,8 @@ public class gameManager : SimpleNetworkUdonBehaviour
         }
     }
 
-    public void GameEnd(int _loser)
+    public void GameEnd(int loser)
     {
-        if (isGame) loser = _loser;
-        SendEvent("GameEnd", true);
-        RequestSerialization();
+        SendEvent("GameEnd", loser);
     }
 }
