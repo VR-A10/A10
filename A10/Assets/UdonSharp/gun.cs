@@ -22,7 +22,7 @@ public class gun : UdonSharpBehaviour
         bullet = gunTrans.Find("Bullet").gameObject;
         laser = bullet.transform.Find("RaycastLaser *").gameObject;
         laser.SetActive(false);
-        bullets = new GameObject[8];
+        bullets = new GameObject[4];
         GameObject tmp = Instantiate(gunTrans.gameObject);
         tmp.SetActive(false);
         initialGunTrans = tmp.transform;
@@ -34,7 +34,7 @@ public class gun : UdonSharpBehaviour
         if (bullets[0] == null)
         {
             GameObject[] guns = Manager.GetComponent<gameManager>().GetGuns();
-            for (int i = 0; i < 8; i++)
+            for (int i = 0; i < 4; i++)
             {
                 bullets[i] = guns[i].transform.Find("Visual/Bullet").gameObject;
             }
