@@ -10,6 +10,6 @@ public class Out : UdonSharpBehaviour
 
     public override void OnPlayerTriggerEnter(VRCPlayerApi player)
     {
-        Manager.GetComponent<gameManager>().GameEnd(player.playerId);
+        Manager.GetComponent<gameManager>().Out(player.playerId);
     }
 }
